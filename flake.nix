@@ -5,7 +5,12 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }: {
-    packages.x86_64-linux.nvim-custom = nixpkgs.callPackage ./neovim.nix { };
-  };
+  outputs = { self, nixpkgs }:
+    let
+      system = "x86_64-linux"; # Adjust for your architecture
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      packages.${system}.default = pkgs.callPackage ./neovim.nix { };
+    };
 }
