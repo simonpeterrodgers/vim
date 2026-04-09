@@ -54,6 +54,7 @@ require("mini.icons").setup()
 require("mini.indentscope").setup()
 require("mini.cursorword").setup()
 require("mini.statusline").setup()
+require("mini.diff").setup()
 require("fidget").setup({})
 
 require("blink-cmp").setup({
