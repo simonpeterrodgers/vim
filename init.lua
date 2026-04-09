@@ -2,11 +2,6 @@ vim.o.number = true
 vim.o.mouse = 'a'
 vim.o.confirm = true
 
--- leader config
-vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- use 2 spaces for tabs
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
@@ -19,6 +14,40 @@ vim.o.cmdheight = 0
 -- Clear highlighting by pressing esc
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+--
+-- Key binds
+--
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+require("which-key").setup({
+  delay = 0;
+  spec = {
+    { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
+    { '<leader>t', group = '[T]oggle' },
+    { 'gr', group = 'LSP Actions', mode = { 'n' } },
+  }
+})
+
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
+
+vim.keymap.set('n', '<leader>sh', ":Telescope help_tags<CR>", { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sk', ":Telescope keymaps<CR>", { desc = '[S]earch [K]eymaps' })
+vim.keymap.set('n', '<leader>sf', ":Telescope find_files<CR>", { desc = '[S]earch [F]iles' })
+vim.keymap.set({ 'n', 'v' }, '<leader>sw', ":Telescope grep_string<CR>", { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', ":Telescope live_grep<CR>", { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', ":Telescope diagnostics<CR>", { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sr', ":Telescope resume<CR>", { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>s.', ":Telescope oldfiles<CR>", { desc = '[S]earch Recent Files ("." for repeat)' })
+vim.keymap.set('n', '<leader>sc', ":Telescope commands<CR>", { desc = '[S]earch [C]ommands' })
+vim.keymap.set('n', '<leader><leader>', ":Telescope buffers<CR>", { desc = '[ ] Find existing buffers' })
+
+vim.keymap.set('n', '<leader>td', function()
+  vim.diagnostic.config({
+    virtual_lines = not vim.diagnostic.config().virtual_lines,
+    virtual_text = not vim.diagnostic.config().virtual_text,
+  })
+end, { desc = '[T]oggle [D]iagnostic lines' })
 
 require("mini.icons").setup()
 require("mini.indentscope").setup()
