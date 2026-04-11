@@ -29,6 +29,7 @@ require("which-key").setup({
 })
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 
 vim.keymap.set('n', '<leader>sh', ":Telescope help_tags<CR>", { desc = '[S]earch [H]elp' })
@@ -108,6 +109,15 @@ set_colorscheme(vim.o.background)
 --
 -- LSP
 -- 
+require('neodev').setup({
+   override = function(root_dir, library)
+    if root_dir:find("/home/simon/nvim", 1, true) == 1 then
+      library.enabled = true
+      library.plugins = true
+    end
+  end,
+});
+
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("rust_analyzer")
 vim.lsp.enable("nixd")

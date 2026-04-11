@@ -9,6 +9,7 @@ let
     fidget-nvim
     blink-cmp
     nvim-treesitter.withAllGrammars
+    neodev-nvim
   ];
 
   # Recursively collect plugings and deps
