@@ -12,20 +12,21 @@ vim.o.signcolumn = "yes"
 -- Hide command line
 vim.o.cmdheight = 0
 
---
--- Key binds
---
+-- ╔════════════════════╗
+-- ║      Keymaps       ║
+-- ╚════════════════════╝
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 require("which-key").setup({
-  delay = 0;
+  delay = 0,
   spec = {
-    { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
+    { '<leader>s', group = '[S]earch',    mode = { 'n', 'v' } },
     { '<leader>t', group = '[T]oggle' },
-    { 'gr', group = 'LSP Actions', mode = { 'n' } },
-  };
-  win = { border = "rounded"; }
+    { '<leader>g', group = '[G]it' },
+    { 'gr',        group = 'LSP Actions', mode = { 'n' } },
+  },
+  win = { border = "rounded", }
 })
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -43,6 +44,13 @@ vim.keymap.set('n', '<leader>s.', ":Telescope oldfiles<CR>", { desc = '[S]earch 
 vim.keymap.set('n', '<leader>sc', ":Telescope commands<CR>", { desc = '[S]earch [C]ommands' })
 vim.keymap.set('n', '<leader><leader>', ":Telescope buffers<CR>", { desc = '[ ] Find existing buffers' })
 
+vim.keymap.set('v', 'gq', ":lua vim.lsp.buf.format()<CR>", { desc = "format" })
+vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { desc = "[f]ormat" })
+
+vim.keymap.set('n', '<leader>go', ":lua MiniDiff.toggle_overlay()<CR>", { desc = '[G]it [O]verlay' })
+vim.keymap.set('n', '<leader>th', function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = '[T]oggle Inlay [H]ints' })
 vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.config({
     virtual_lines = not vim.diagnostic.config().virtual_lines,
@@ -51,6 +59,9 @@ vim.keymap.set('n', '<leader>td', function()
 end, { desc = '[T]oggle [D]iagnostic lines' })
 vim.diagnostic.config({ update_in_insert = true })
 
+-- ╔════════════════════╗
+-- ║      Plugins       ║
+-- ╚════════════════════╝
 require("mini.icons").setup()
 require("mini.indentscope").setup()
 require("mini.cursorword").setup()
@@ -73,9 +84,9 @@ require("blink-cmp").setup({
   }
 })
 
---
--- Colorscheme
---
+-- ╔════════════════════╗
+-- ║    Colorscheme     ║
+-- ╚════════════════════╝
 local function set_colorscheme(background)
   if background == "dark" then
     require("mini.hues").setup({
@@ -106,11 +117,11 @@ vim.api.nvim_create_autocmd("OptionSet", {
 
 set_colorscheme(vim.o.background)
 
---
--- LSP
--- 
+-- ╔════════════════════╗
+-- ║        LSP         ║
+-- ╚════════════════════╝
 require('neodev').setup({
-   override = function(root_dir, library)
+  override = function(root_dir, library)
     if root_dir:find("/home/simon/nvim", 1, true) == 1 then
       library.enabled = true
       library.plugins = true
